@@ -1,6 +1,13 @@
-# 开发模式覆盖：给 api 开主机端口 + 接受 Vite dev server 的 Origin
+# 开发模式覆盖：给 api 开主机端口 + 接受 Vite dev server 的 Origin + 挂载源码目录
 services:
   api:
     ports: ["127.0.0.1:8000:8000"]
     environment:
       APP_ORIGIN: http://127.0.0.1:5173
+    volumes:
+      - type: bind
+        source: ./recommender
+        target: /app/recommender
+      - type: bind
+        source: ./backend/app
+        target: /app/backend/app

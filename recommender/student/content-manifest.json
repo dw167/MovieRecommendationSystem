@@ -1,0 +1,29 @@
+{
+  "algorithm": "content",
+  "model_version": "content-v1",
+  "runtime_mode": "business",
+  "dataset_version": "rec-course-v3-train5-1.0.0",
+  "split_version": "temporal-v1-cold500-train5-v3",
+  "schema_version": "student-eight-v3",
+  "manifest_sha256": "fcfb9a195a56709773696aab02f769c691778af0eb433a1e0778a71c4b289b9e",
+  "training_files": {
+    "business/history_ratings.csv": "b73992a5390d668e80d777bc7425404dd3a850dd5b7eaad5abc7f4cac21ff438"
+  },
+  "feature_files": {
+    "movies.csv": "99f7951a528890bc6ca088b65987790e926adc8f595971346b5b606e4c71454e",
+    "training-catalog.csv": "3fbb145fdaad3f66e3ca17d0e1c32f385a90c1a465c6a905f17be9fc6a08460c"
+  },
+  "artifacts": {
+    "content-genres.json": "61fb91a4884f2eeb92585a2f57386432cb9df15e4e80b01886b6e10b107ec40a"
+  },
+  "parameters": {
+    "positive_threshold": 4.0,
+    "similarity": "cosine",
+    "feature_type": "multi-hot",
+    "max_items": 10
+  },
+  "tool_versions": {
+    "python": "3.11",
+    "algorithm": "content-v1"
+  }
+}

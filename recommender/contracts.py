@@ -63,7 +63,18 @@ class AlgorithmNotImplemented(Exception):
 PROVIDERS: dict[Algorithm, Recommender] = {}
 
 
+# ── 延迟注册（避免循环引用：contracts 在 import 时不触发 content）──
+def _ensure_provider(algorithm: Algorithm) -> None:
+    if PROVIDERS.get(algorithm) is not None:
+        return
+    if algorithm == Algorithm.content:
+        from .student.content import ContentProvider
+        PROVIDERS[Algorithm.content] = ContentProvider()
+    # 后续实验的 provider 也在这里按需注册
+
+
 def recommend(algorithm: Algorithm, request: RecommendationRequest) -> RecommendationResult:
+    _ensure_provider(algorithm)
     provider = PROVIDERS.get(algorithm)
     if provider is None:
         raise AlgorithmNotImplemented(algorithm.value)
