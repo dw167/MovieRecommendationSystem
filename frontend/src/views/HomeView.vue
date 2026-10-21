@@ -16,12 +16,25 @@ onMounted(fetchMovies)
 <template>
   <div class="page home-page">
     <section class="hero">
-      <div class="hero-copy"><p class="eyebrow"><span /> A MOMENT FOR CINEMA</p><h1>好电影，值得<span>再靠近一点。</span></h1><p class="hero-description">从一部电影开始，发现自己的观影偏好。<br />探索真实片库，让每一次评分留下回响。</p><div class="hero-actions"><RouterLink class="button primary" to="/movies">探索电影库 <el-icon aria-hidden="true"><ArrowRight /></el-icon></RouterLink><RouterLink class="button subtle" to="/experiments">进入推荐实验室</RouterLink></div><div class="hero-footnote"><span class="line" /> 浏览 · 记录 · 发现</div></div>
+      <div class="hero-copy"><p class="eyebrow">
+        <span /> A MOMENT FOR CINEMA</p>
+        <h1>好电影，值得
+          <span>再靠近一点。</span>
+        </h1><p class="hero-description">从一部电影开始，发现自己的观影偏好。
+          <br />探索真实片库，让每一次评分留下回响。</p>
+          <div class="hero-actions">
+            <RouterLink class="button primary" to="/movies">探索电影库 <el-icon aria-hidden="true"><ArrowRight />
+            </el-icon></RouterLink><RouterLink class="button subtle" to="/experiments">进入推荐实验室</RouterLink>
+          </div>
+          <div class="hero-footnote"><span class="line" /> 浏览 · 记录 · 发现</div></div>
       <div class="hero-art" aria-hidden="true"><div class="orbital orbital-one" /><div class="orbital orbital-two" /><div class="film-ticket"><div class="ticket-top"><span>CINELAB</span><span>ADMIT ONE</span></div><div class="ticket-reel"><span /><span /><span /><span /><i /></div><div class="ticket-caption">THE NEXT<br /><em>discovery.</em></div><div class="ticket-bottom"><span>留一点时间，给电影。</span><span>▶</span></div></div><span class="art-label">YOUR TASTE. YOUR NEXT FILM.</span></div>
     </section>
     <div class="intro-strip"><p><el-icon aria-hidden="true"><Reading /></el-icon><strong>真实片库</strong><span>保留原始 MovieLens 电影标识</span></p><p><el-icon aria-hidden="true"><Search /></el-icon><strong>自由探索</strong><span>按片名与类型发现电影</span></p><RouterLink to="/movies">开始浏览 <span aria-hidden="true">↗</span></RouterLink></div>
-    <section class="recommendation-section"><div class="section-heading"><div><p class="eyebrow">MADE FOR YOUR TASTE</p><h2>你的下一部<span class="heading-dot">.</span></h2><p class="muted">评分与收藏记录喜好，推荐功能等待算法接入。</p></div><RouterLink to="/experiments" class="text-link">查看实验室 →</RouterLink></div><div class="recommendation-columns"><AlgorithmPanel label="为你推荐" :endpoint="auth.account ? '/me/recommendations/content' : null" /><AlgorithmPanel label="热门推荐" :endpoint="auth.account ? '/me/recommendations/popular' : null" /></div></section>
-    <section class="browse-section"><div class="section-heading"><div><p class="eyebrow">THE FILM ARCHIVE</p><h2>从片库出发<span class="heading-dot">.</span></h2><p class="muted">按原始电影编号展示，探索属于你的下一部。</p></div><RouterLink to="/movies" class="text-link">查看全部 <el-icon aria-hidden="true"><ArrowRight /></el-icon></RouterLink></div><StatePanel :loading="loading" :error="error" :empty="!!data && !data.items.length" @retry="fetchMovies"><div class="movie-grid"><MovieCard v-for="movie in data?.items" :key="movie.movie_id" :movie="movie" /></div></StatePanel></section>
+    <section class="recommendation-section"><div class="section-heading"><div><p class="eyebrow">MADE FOR YOUR TASTE</p>
+      <h2>你的下一部<span class="heading-dot">.</span></h2><p class="muted">评分与收藏记录喜好，推荐功能等待算法接入。</p></div><RouterLink to="/experiments" class="text-link">查看实验室 →</RouterLink></div><div class="recommendation-columns"><AlgorithmPanel label="为你推荐" :endpoint="auth.account ? '/me/recommendations/content' : null" /><AlgorithmPanel label="热门推荐" :endpoint="auth.account ? '/me/recommendations/popular' : null" /></div></section>
+    <section class="browse-section"><div class="section-heading"><div><p class="eyebrow">THE FILM ARCHIVE</p>
+      <h2>从片库出发<span class="heading-dot">.</span></h2><p class="muted">按原始电影编号展示，探索属于你的下一部。</p>
+    </div><RouterLink to="/movies" class="text-link">查看全部 <el-icon aria-hidden="true"><ArrowRight /></el-icon></RouterLink></div><StatePanel :loading="loading" :error="error" :empty="!!data && !data.items.length" @retry="fetchMovies"><div class="marquee-outer"><div class="marquee-viewport"><div class="marquee-track"><MovieCard v-for="movie in data?.items" :key="'a-' + movie.movie_id" :movie="movie" /><MovieCard v-for="movie in data?.items" :key="'b-' + movie.movie_id" :movie="movie" /></div></div></div></StatePanel></section>
   </div>
 </template>
 
@@ -50,5 +63,36 @@ onMounted(fetchMovies)
   .hero-actions { gap: 10px; }
   .hero-actions .button { padding: 10px 12px; }
   .recommendation-section { margin-top: 26px; }
+}
+
+/* ---- 横向走马灯 ---- */
+.marquee-outer { margin-block: -28px; } /* 抵消 viewport 的 padding，不影响外部高度 */
+.marquee-viewport { overflow: hidden; padding-block: 28px; } /* padding 留在这层！放大有空间露出 */
+.marquee-track {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  gap: 24px;
+  animation: marquee-scroll 30s linear infinite;
+  will-change: transform;
+}
+.marquee-track :deep(.movie-card) {
+  flex: 0 0 calc((100% - 72px) / 4);
+  transition: transform .25s ease, box-shadow .25s ease;
+  transform-origin: center bottom;
+}
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+.marquee-track :deep(.movie-card:hover) {
+  transform: scale(1.12);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .45);
+  z-index: 2;
+}
+@keyframes marquee-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(calc(-50% - 12px)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none !important; }
 }
 </style>

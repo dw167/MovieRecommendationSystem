@@ -1,0 +1,6 @@
+# 开发模式覆盖：给 api 开主机端口 + 接受 Vite dev server 的 Origin
+services:
+  api:
+    ports: ["127.0.0.1:8000:8000"]
+    environment:
+      APP_ORIGIN: http://127.0.0.1:5173
