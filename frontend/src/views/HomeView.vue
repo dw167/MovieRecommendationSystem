@@ -66,8 +66,8 @@ onMounted(fetchMovies)
 }
 
 /* ---- 横向走马灯 ---- */
-.marquee-outer { margin-block: -28px; } /* 抵消 viewport 的 padding，不影响外部高度 */
-.marquee-viewport { overflow: hidden; padding-block: 28px; } /* padding 留在这层！放大有空间露出 */
+.marquee-outer { margin-block: -60px; } /* 抵消 viewport 的 padding，不影响外部高度 */
+.marquee-viewport { overflow: hidden; padding-block: 60px; } /* 60px 够 hover scale + shadow 完整露出 */
 .marquee-track {
   display: inline-flex;
   flex-wrap: nowrap;
