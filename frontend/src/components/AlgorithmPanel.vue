@@ -4,6 +4,7 @@ import { Connection } from '@element-plus/icons-vue'
 import http, { ApiError } from '../api'
 import StatePanel from './StatePanel.vue'
 import MovieCard from './MovieCard.vue'
+import MoviePoster from './MoviePoster.vue'
 import type { AlgorithmResult, Movie } from '../types'
 const props = withDefaults(defineProps<{ endpoint: string | null; label: string; emptySubject?: string }>(), { emptySubject: '登录后体验' })
 const loading = ref(false), error = ref<unknown>(null), unavailable = ref(false)
@@ -59,11 +60,28 @@ const strategy = computed(() => {
         </div>
         <p v-if="strategy" class="strategy-hint">{{ strategy.hint }}</p>
         <p v-if="!result.items.length" class="muted">本次没有推荐结果。</p>
-        <div v-else class="recommendation-grid">
-          <div v-for="(item, idx) in result.items" :key="item.movie_id" class="recommendation-item">
-            <MovieCard v-if="movies[idx]" :movie="movies[idx]" />
-            <div v-else class="card-fallback">电影 #{{ item.movie_id }}</div>
-            <div class="recommendation-badge">#{{ item.rank }}<span v-if="item.score !== null"> · {{ item.score.toFixed(4) }}</span></div>
+        <div v-else class="recommendation-layout">
+          <RouterLink :to="`/movies/${result.items[0].movie_id}`" class="hero-card">
+            <div class="hero-poster">
+              <MoviePoster v-if="movies[0]" :path="movies[0].poster_path" :title="movies[0].movielens_title" />
+              <div v-else class="card-fallback">电影 #{{ result.items[0].movie_id }}</div>
+            </div>
+            <div class="hero-info">
+              <div class="hero-tags">
+                <span class="hero-badge">#{{ result.items[0].rank }}<span v-if="result.items[0].score !== null"> · {{ result.items[0].score.toFixed(4) }}</span></span>
+                <span class="hero-eyebrow">TOP PICK · 首推</span>
+              </div>
+              <h3>{{ movies[0]?.title_zh || movies[0]?.movielens_title || `电影 #${result.items[0].movie_id}` }}</h3>
+              <p class="hero-meta">{{ movies[0]?.release_year || '年份未收录' }}<span aria-hidden="true"> · </span>{{ movies[0]?.genres.slice(0, 3).join(' / ') || '类型未收录' }}</p>
+              <p v-if="movies[0]?.overview" class="hero-overview">{{ movies[0]?.overview || '' }}</p>
+            </div>
+          </RouterLink>
+          <div v-if="result.items.length > 1" class="recommendation-grid">
+            <div v-for="(item, idx) in result.items.slice(1)" :key="item.movie_id" class="recommendation-item">
+              <MovieCard v-if="movies[idx + 1]" :movie="movies[idx + 1]" />
+              <div v-else class="card-fallback">电影 #{{ item.movie_id }}</div>
+              <div class="recommendation-badge">#{{ item.rank }}<span v-if="item.score !== null"> · {{ item.score.toFixed(4) }}</span></div>
+            </div>
           </div>
         </div>
       </div>
@@ -80,11 +98,45 @@ const strategy = computed(() => {
   border-radius: 999px; border: 1px solid var(--border);
 }
 .strategy-hint { margin: -8px 0 16px; color: var(--muted); font-size: 12px; }
-.recommendation-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; }
+.recommendation-layout { display: flex; flex-direction: column; gap: 20px; }
+.recommendation-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.hero-card {
+  display: grid; grid-template-columns: 168px minmax(0, 1fr); gap: 22px; align-items: stretch;
+  padding: 18px; border: 1px solid var(--border-strong); border-radius: 10px;
+  background: radial-gradient(ellipse 420px 240px at 96% 0%, rgba(226,182,108,.12), transparent 66%), var(--surface-alt);
+  transition: border-color .18s;
+}
+.hero-card:hover { border-color: var(--accent); }
+.hero-poster { min-width: 0; }
+.hero-poster :deep(.movie-poster), .hero-poster .card-fallback { aspect-ratio: 2/3; }
+.hero-poster .card-fallback { border-color: var(--border-strong); }
+.hero-info { display: flex; flex-direction: column; justify-content: center; gap: 10px; min-width: 0; }
+.hero-tags { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.hero-badge {
+  background: var(--accent); color: var(--ink);
+  font-size: 12px; font-weight: 700; padding: 3px 9px; border-radius: 5px;
+}
+.hero-eyebrow { color: var(--accent); font-size: 10px; font-weight: 600; letter-spacing: .18em; }
+.hero-info h3 { font-size: 21px; line-height: 1.35; overflow-wrap: anywhere; }
+.hero-meta { color: var(--muted); font-size: 12px; }
+.hero-overview {
+  color: var(--muted); font-size: 13px; line-height: 1.8;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+@media (max-width: 780px) {
+  .recommendation-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hero-card { grid-template-columns: 120px minmax(0, 1fr); gap: 16px; padding: 14px; }
+  .hero-info h3 { font-size: 17px; }
+}
+@media (max-width: 520px) {
+  .recommendation-grid { grid-template-columns: 1fr; }
+  .hero-card { grid-template-columns: 100px minmax(0, 1fr); }
+  .hero-overview { display: none; }
+}
 .recommendation-item { position: relative; }
 .recommendation-badge {
   position: absolute; top: 8px; left: 8px; z-index: 2;
-  background: rgba(10, 18, 19, 0.85); backdrop-filter: blur(4px);
+  background: rgba(8, 12, 21, 0.85); backdrop-filter: blur(4px);
   color: var(--accent); font-size: 12px; font-weight: 700;
   padding: 4px 8px; border-radius: 6px; border: 1px solid var(--border);
 }

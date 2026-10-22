@@ -72,7 +72,7 @@ onMounted(fetchMovies)
   display: inline-flex;
   flex-wrap: nowrap;
   gap: 24px;
-  animation: marquee-scroll 30s linear infinite;
+  animation: marquee-scroll 20s linear infinite;
   will-change: transform;
 }
 .marquee-track :deep(.movie-card) {
