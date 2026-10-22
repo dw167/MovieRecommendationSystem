@@ -27,6 +27,9 @@ id_ed25519*
 *.log
 *.log.*
 /reports/
+# Offline evaluation intermediates (predictions JSONL, regenerable eval artifacts).
+/eval-out/
+/recommender/student/itemcf-similarities-eval.json
 # Databases, generated models and dependency/build caches.
 **/mysql_data/
 **/docker-data/

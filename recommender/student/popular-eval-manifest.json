@@ -1,0 +1,23 @@
+{
+  "algorithm": "popular",
+  "model_version": "popular-eval-v1",
+  "runtime_mode": "evaluation",
+  "dataset_version": "rec-course-v3-train5-1.0.0",
+  "split_version": "temporal-v1-cold500-train5-v3",
+  "schema_version": "student-eight-v3",
+  "manifest_sha256": "fcfb9a195a56709773696aab02f769c691778af0eb433a1e0778a71c4b289b9e",
+  "training_files": {
+    "evaluation/train.csv": "c07a4c82155b216751129ddf5716717e54bbe2cb772cdf3a44f24e1f3971c342"
+  },
+  "feature_files": {},
+  "artifacts": {
+    "popular-rankings-eval.json": "aca676238dd93bf31b2a529b4b82703f6eb307d8fe031b149b4a3658b117ed50"
+  },
+  "parameters": {
+    "min_votes": 50,
+    "weighting": "WR"
+  },
+  "tool_versions": {
+    "python": "3.12.12"
+  }
+}

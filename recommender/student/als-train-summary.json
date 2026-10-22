@@ -1,0 +1,25 @@
+{
+  "framework": "spark-mllib-als",
+  "spark_version": "3.5.6",
+  "parameters": {
+    "rank": 16,
+    "maxIter": 12,
+    "regParam": 0.1,
+    "seed": 42,
+    "implicitPrefs": false,
+    "coldStartStrategy": "drop"
+  },
+  "business": {
+    "rows": 798775,
+    "users": 5000,
+    "items": 8459,
+    "fit_seconds": 13.7
+  },
+  "evaluation": {
+    "rows": 583502,
+    "users": 4500,
+    "items": 8459,
+    "fit_seconds": 7.2
+  },
+  "eval_top60_users": 4500
+}

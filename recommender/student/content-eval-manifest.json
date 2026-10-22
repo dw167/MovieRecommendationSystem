@@ -1,0 +1,26 @@
+{
+  "algorithm": "content",
+  "model_version": "content-eval-v1",
+  "runtime_mode": "evaluation",
+  "dataset_version": "rec-course-v3-train5-1.0.0",
+  "split_version": "temporal-v1-cold500-train5-v3",
+  "schema_version": "student-eight-v3",
+  "manifest_sha256": "fcfb9a195a56709773696aab02f769c691778af0eb433a1e0778a71c4b289b9e",
+  "training_files": {
+    "evaluation/train.csv": "c07a4c82155b216751129ddf5716717e54bbe2cb772cdf3a44f24e1f3971c342"
+  },
+  "feature_files": {
+    "movies.csv": "99f7951a528890bc6ca088b65987790e926adc8f595971346b5b606e4c71454e"
+  },
+  "artifacts": {
+    "content-genres.json": "61fb91a4884f2eeb92585a2f57386432cb9df15e4e80b01886b6e10b107ec40a"
+  },
+  "parameters": {
+    "feature": "genres-multi-hot",
+    "similarity": "cosine",
+    "positive_threshold": 4.0
+  },
+  "tool_versions": {
+    "python": "3.12.12"
+  }
+}

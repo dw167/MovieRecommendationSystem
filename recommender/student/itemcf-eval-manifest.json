@@ -1,0 +1,24 @@
+{
+  "algorithm": "itemcf",
+  "model_version": "itemcf-eval-v1",
+  "runtime_mode": "evaluation",
+  "dataset_version": "rec-course-v3-train5-1.0.0",
+  "split_version": "temporal-v1-cold500-train5-v3",
+  "schema_version": "student-eight-v3",
+  "manifest_sha256": "fcfb9a195a56709773696aab02f769c691778af0eb433a1e0778a71c4b289b9e",
+  "training_files": {
+    "evaluation/train.csv": "c07a4c82155b216751129ddf5716717e54bbe2cb772cdf3a44f24e1f3971c342"
+  },
+  "feature_files": {},
+  "artifacts": {
+    "itemcf-similarities-eval.json": "6dfb2838d4c3b4b462677536a0b002daf28d04a1fb5f444a461b528c731b8942"
+  },
+  "parameters": {
+    "min_support": 5,
+    "top_neighbors": 50,
+    "positive_threshold": 4.0
+  },
+  "tool_versions": {
+    "python": "3.12.12"
+  }
+}

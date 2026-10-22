@@ -9,6 +9,11 @@ export interface Movie {
 export interface Page<T> { items: T[]; total: number; page: number; per_page: number }
 export interface HistoryUser { ml_user_id: string; evaluation_role: string; subject_key: string }
 export interface Algorithm { algorithm: string; status: string }
+export interface EvaluationRow {
+  algorithm: string; model_version: string; partition: string; user_count: number
+  precision_at_10: number; recall_at_10: number
+}
+export interface EvaluationTable { status: string; partition: string; items: EvaluationRow[] }
 export interface AlgorithmResult {
   status: string; algorithm: string; model_version: string | null; batch_id: string | null
   dataset_version: string; split_version: string; runtime_mode: string

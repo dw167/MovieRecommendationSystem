@@ -1,0 +1,30 @@
+{
+  "algorithm": "als",
+  "model_version": "als-eval-v1",
+  "runtime_mode": "evaluation",
+  "dataset_version": "rec-course-v3-train5-1.0.0",
+  "split_version": "temporal-v1-cold500-train5-v3",
+  "schema_version": "student-eight-v3",
+  "manifest_sha256": "fcfb9a195a56709773696aab02f769c691778af0eb433a1e0778a71c4b289b9e",
+  "training_files": {
+    "evaluation/train.csv": "c07a4c82155b216751129ddf5716717e54bbe2cb772cdf3a44f24e1f3971c342"
+  },
+  "feature_files": {},
+  "artifacts": {
+    "als-factors-eval.json": "7e946ad3aa912ecb8f1f84a62da97ae283aa98725a0d72788ae9572c508277ae",
+    "als-eval-top60.json": "f1fac175f2da793ec0db98fe65f553d49ca7e8f74d1f8fe8e092005f0ed4e4c3"
+  },
+  "parameters": {
+    "rank": 16,
+    "maxIter": 12,
+    "regParam": 0.1,
+    "seed": 42,
+    "implicitPrefs": false,
+    "coldStartStrategy": "drop",
+    "min_support_movies": 25
+  },
+  "tool_versions": {
+    "spark": "3.5.6",
+    "python": "3.12.12"
+  }
+}

@@ -11,3 +11,9 @@ services:
       - type: bind
         source: ./backend/app
         target: /app/backend/app
+      - type: bind
+        source: ./scripts
+        target: /app/scripts
+      - type: bind
+        source: ./eval-out
+        target: /app/eval-out

@@ -79,6 +79,9 @@ def _ensure_provider(algorithm: Algorithm) -> None:
     elif algorithm == Algorithm.itemcf:
         from .student.itemcf import ItemCFProvider
         PROVIDERS[Algorithm.itemcf] = ItemCFProvider()
+    elif algorithm == Algorithm.als:
+        from .student.als import AlsProvider
+        PROVIDERS[Algorithm.als] = AlsProvider()
     # 后续实验的 provider 也在这里按需注册
 
 

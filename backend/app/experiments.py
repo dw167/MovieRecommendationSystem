@@ -1,3 +1,5 @@
+import json
+from pathlib import Path
 from typing import Annotated
 
 from fastapi import APIRouter, Query, Request
@@ -37,10 +39,22 @@ def algorithms():
     return {"items": [{"algorithm": algorithm.value, "status": "registered" if algorithm in PROVIDERS else "not_implemented"} for algorithm in Algorithm]}
 
 
+EVAL_RESULTS = Path(__file__).resolve().parents[2] / "recommender" / "student" / "eval-results"
+EVALUATED = ["popular", "content", "itemcf", "als"]
+
+
 @router.get("/experiments/evaluations")
 def evaluations():
-    raise APIError(501, "EVALUATION_NOT_IMPLEMENTED", "评价流程留给学生实现；业务API不连接evaluation数据库", {
-        "status": "not_implemented", "metrics": None, "dataset_version": DATASET, "split_version": SPLIT})
+    # 只读学生离线评价进程产出的结果文件；业务API本身不连接evaluation数据库。
+    items = []
+    for name in EVALUATED:
+        path = EVAL_RESULTS / f"{name}-validation.json"
+        if not path.is_file():
+            raise APIError(501, "EVALUATION_NOT_IMPLEMENTED", "评价流程留给学生实现；业务API不连接evaluation数据库", {
+                "status": "not_implemented", "metrics": None, "dataset_version": DATASET, "split_version": SPLIT})
+        items.append(json.loads(path.read_text(encoding="utf-8")))
+    return {"status": "completed", "partition": "validation", "dataset_version": DATASET,
+            "split_version": SPLIT, "items": items}
 
 
 @router.get("/me/recommendations/{algorithm}", response_model=RecommendationResult)
