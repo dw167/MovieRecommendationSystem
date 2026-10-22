@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onScopeDispose, ref, watch } from 'vue'
+import { computed, onScopeDispose, ref, watch } from 'vue'
 import { Connection } from '@element-plus/icons-vue'
 import http, { ApiError } from '../api'
 import StatePanel from './StatePanel.vue'
@@ -34,6 +34,13 @@ async function load() {
   } finally { if (seq === run) loading.value = false }
 }
 watch(() => props.endpoint, load, { immediate: true })
+const strategy = computed(() => {
+  if (!result.value || result.value.algorithm !== 'cold_start' || !result.value.items.length) return null
+  const source = result.value.items[0].recall_sources?.[0]
+  if (source === 'popular-fallback') return { text: '策略：热门榜单兜底 · 非个性化', hint: '该用户评分数 < 3，尚不能构建兴趣画像，展示全体用户加权热门榜单。' }
+  if (source === 'content-personalized') return { text: '策略：内容个性化推荐', hint: '该用户已有 ≥3 条评分，基于其历史正反馈的类型画像做个性化推荐。' }
+  return null
+})
 </script>
 <template>
   <section class="algorithm-panel" :aria-label="label">
@@ -47,8 +54,10 @@ watch(() => props.endpoint, load, { immediate: true })
       <div v-else-if="result" class="recommendation-results">
         <div class="result-meta">
           <span class="status-pill">{{ result.status }}</span>
+          <span v-if="strategy" class="strategy-pill">{{ strategy.text }}</span>
           <span class="muted">模型 {{ result.model_version }} · 数据集 {{ result.dataset_version }}</span>
         </div>
+        <p v-if="strategy" class="strategy-hint">{{ strategy.hint }}</p>
         <p v-if="!result.items.length" class="muted">本次没有推荐结果。</p>
         <div v-else class="recommendation-grid">
           <div v-for="(item, idx) in result.items" :key="item.movie_id" class="recommendation-item">
@@ -65,6 +74,12 @@ watch(() => props.endpoint, load, { immediate: true })
 <style scoped>
 .recommendation-results { margin-top: 8px; }
 .result-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+.strategy-pill {
+  background: rgba(212, 175, 102, 0.12); color: var(--accent);
+  font-size: 12px; font-weight: 600; padding: 3px 10px;
+  border-radius: 999px; border: 1px solid var(--border);
+}
+.strategy-hint { margin: -8px 0 16px; color: var(--muted); font-size: 12px; }
 .recommendation-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; }
 .recommendation-item { position: relative; }
 .recommendation-badge {
