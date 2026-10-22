@@ -1,55 +1,57 @@
 /* ============================================================
-   片刻 CineLab · 暗黑胶片实验室主题 Token
+   片刻 CineLab · 午夜影院主题 Token
+   深墨蓝基底 + 暖金色点缀，突出银幕与胶片质感
    ============================================================ */
 :root, html.dark {
   color-scheme: dark;
 
   /* ---- 品牌主色 ---- */
-  --bg:          #10191a;           /* 深绿炭黑 · 页面基底 */
-  --bg-deep:     #0a1213;           /* 更深层（径向渐变圆心用）*/
-  --surface:     #1a2726;           /* 卡片容器底色（比 bg 稍亮）*/
-  --surface-alt: #1e2d2c;           /* 次级面板/嵌套卡片 */
-  --text:        #e8ebe4;           /* 正文：柔和浅白 */
-  --muted:       #8a9892;           /* 次要文字：低饱和灰调 */
-  --border:      rgba(212,175,102,.18); /* 淡金色透明边框 */
-  --border-strong:rgba(212,175,102,.35);/* hover 时的边框 */
-  --accent:      #d4af66;           /* 暖胶片金 · 点缀 */
-  --accent-soft: #d4af6622;         /* 淡金 tint（hover 背景、active 底）*/
-  --ink:         #121d1d;           /* 金色按钮上的反色文字 */
-  --danger:      #c77d70;           /* 低饱和暖色危险态 */
+  --bg:          #0b0f1a;           /* 午夜墨蓝 · 页面基底 */
+  --bg-deep:     #060911;           /* 更深层（背景渐变收口）*/
+  --surface:     #141a28;           /* 卡片容器底色（比 bg 稍亮）*/
+  --surface-alt: #1a2233;           /* 次级面板/嵌套卡片 */
+  --text:        #eef0f5;           /* 正文：冷调浅白 */
+  --muted:       #98a2b6;           /* 次要文字：低饱和蓝灰 */
+  --border:      rgba(226,182,108,.16); /* 淡金色透明边框 */
+  --border-strong:rgba(226,182,108,.38);/* hover 时的边框 */
+  --accent:      #e2b66c;           /* 暖胶片金 · 点缀 */
+  --accent-soft: rgba(226,182,108,.14); /* 淡金 tint（hover 背景）*/
+  --accent-tint: rgba(226,182,108,.08); /* 更淡的金色底（标签、提示条）*/
+  --ink:         #10141f;           /* 金色按钮上的反色文字 */
+  --danger:      #d47f70;           /* 低饱和暖色危险态 */
 
   /* ---- Element Plus 覆盖 ---- */
   --el-color-primary:        var(--accent);
-  --el-color-primary-light-3:#e0c187;
-  --el-color-primary-light-5:#b5975e;
-  --el-color-primary-light-7:#7a6843;
-  --el-color-primary-light-8:#594d35;
-  --el-color-primary-light-9:#2f2a22;
-  --el-color-primary-dark-2:#b9995a;
+  --el-color-primary-light-3:#ecc98f;
+  --el-color-primary-light-5:#c9a468;
+  --el-color-primary-light-7:#8a7449;
+  --el-color-primary-light-8:#5f5236;
+  --el-color-primary-light-9:#332c22;
+  --el-color-primary-dark-2:#c9a05a;
 
   --el-bg-color:             var(--surface);
   --el-bg-color-page:        var(--bg);
-  --el-bg-color-overlay:     #223332;
+  --el-bg-color-overlay:     #1b2434;
   --el-fill-color-blank:    var(--surface);
-  --el-fill-color:           #233433;
-  --el-fill-color-light:     #233433;
-  --el-fill-color-lighter:   #233433;
+  --el-fill-color:           #1a2233;
+  --el-fill-color-light:     #1a2233;
+  --el-fill-color-lighter:   #1a2233;
 
   --el-text-color-primary:   var(--text);
-  --el-text-color-regular:   #c0c9c3;
+  --el-text-color-regular:   #c3cbd9;
   --el-text-color-secondary: var(--muted);
-  --el-text-color-placeholder:#7d8a85;
+  --el-text-color-placeholder:#7c879b;
 
-  --el-border-color:         #3a4b48;
+  --el-border-color:         #2b3548;
   --el-border-color-light:   var(--border);
   --el-border-color-lighter: var(--border);
 
-  --el-mask-color:           rgba(0,0,0,.60);
+  --el-mask-color:           rgba(3,6,12,.66);
   --el-color-danger:         var(--danger);
 
   --el-font-family: Inter,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
   --el-border-radius-base:   8px;
-  --el-disabled-text-color:  #70807a;
+  --el-disabled-text-color:  #6b7488;
 }
 
 /* ---- Element Plus 组件级微调 ---- */
@@ -57,7 +59,7 @@
   --el-button-text-color:       var(--ink);
   --el-button-hover-text-color: var(--ink);
   --el-button-active-text-color:var(--ink);
-  --el-button-disabled-text-color:#0e1a19;
+  --el-button-disabled-text-color:#0a0e17;
 }
 .el-input, .el-select, .el-input-number { --el-component-size-large:44px; }
 .el-input__wrapper, .el-select__wrapper { min-height:44px; }
@@ -66,9 +68,9 @@
 .el-tabs__active-bar { background:var(--accent); }
 .el-pagination.is-background .el-pager li.is-active { color:var(--ink); }
 .el-table {
-  --el-table-header-bg-color:#1d2b2a;
+  --el-table-header-bg-color:#1b2433;
   --el-table-tr-bg-color:var(--surface);
-  --el-table-row-hover-bg-color:#253836;
+  --el-table-row-hover-bg-color:#202b40;
   --el-table-border-color:var(--border);
   --el-table-header-text-color:var(--muted);
   font-size:13px;
